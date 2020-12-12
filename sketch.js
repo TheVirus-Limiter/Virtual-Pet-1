@@ -1,8 +1,8 @@
 var dog, happyDog;
-var foodS, foodStock;
+var foodStock;
 var database; 
 var count;
-//var author = "rehan";
+var author = "rehan";
 
 function preload()
 {
@@ -17,16 +17,18 @@ function setup() {
   dog.addImage(dogimg);
   dog.scale = 0.25;
   database= firebase.database();
-  foodStock = database.ref('food');
+  foodStock = database.ref('Food');
   foodStock.on("value",readStock);
-  count = 20;
+  //count = 20;
 }
 
 function draw() {  
   background(46,139,87);
- // if(author === "rehan"){
-   // throw new TypeError("Hello! Welcome to Virtual Pet One by Rehan! This isnt actually an error, so you can dismiss it, but this is how to use the app: Click the Up arrow key(🔼) to feed the dog. You can feed the dog 20 times, as you have 20 food! Thanks! 🚀")    
-     // }
+  //if(author === "rehan"){
+  //throw new TypeError("Hello! Welcome to Virtual Pet One by Rehan! This isnt actually an error, so you can dismiss it, but this is how to use the app: Click the Up arrow key(🔼) to feed the dog. You can feed the dog 20 times, as you have 20 food! Thanks! 🚀")    
+ // }
+ //console.log("hello")
+   //  console.clear();
   if(keyWentDown(UP_ARROW)){
     writeStock();
     dog.addImage(happyDogimg);
@@ -35,19 +37,24 @@ function draw() {
   textSize = 3;
   fill("black");
   stroke(2);
-  text("Food Stock : " + count,20,30);
+  text("🦴 Bones Left: " + count,20,30);
  
 }
 function readStock(data){
-  foodS = data.val();
+  count = data.val();
 }
 
-function writeStock(){
+function writeStock(data){
 
   if(count<1){
     count=0;
   }else{
     count=count-1;
   }
+  var updatedPosition = database.ref("/");
+  updatedPosition.set({
+    'Food': count,
+})
   
 }
+
